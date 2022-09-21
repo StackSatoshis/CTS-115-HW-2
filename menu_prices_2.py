@@ -41,13 +41,22 @@ def add_items(title, options): # defines the add_items function
     for option_key, item in options.items():
         print(f"\t{option_key}: {item[0]} - ${item[1]}")
     while True:
-        input_key = input("Enter an item key: ") # requests user to input the menu item number
+        input_key = input("Enter an item key: ") # Assign item key variable
         if input_key is None or len(input_key) == 0:
-            break #break if user inputs nothing
-        input_key = int(input_key) # assigns the variable input key as an integer
-        new_items.append(options[input_key])
+            break # allows user to skip to next section with enter again
+        try:
+            input_key = int(input_key)
+            new_items.append(options[input_key])
+        except KeyError:                                #
+            print("1Thats not on the menu, try again")  #
+            continue                                    #
+        except ValueError:                              #
+            print("2Thats not on the menu, try again")  # Handles various errors caused by special characters
+            continue                                    #
+        except UnicodeDecodeError:                      #
+            print("3Thats not on the menu, try again")  #
+            continue                                    #
     return new_items
-
 
 def calculate_lunch():
     print("Welcome to Bean Dreaming Cafe!")
@@ -70,6 +79,4 @@ def calculate_lunch():
     print(f"Tax: ${tax_rounded}")
     print(f"Total: ${total_rounded}")
 
-
-if __name__ == "__main__": ## This is added to ensure command line functionally
     calculate_lunch()
